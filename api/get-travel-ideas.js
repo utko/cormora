@@ -17,8 +17,12 @@ module.exports = async (req, res) => {
       }
     });
 
-    res.status(200).json({ data: response.data.choices[0].text });
+    res.status(200).json({
+      data: response.data.choices[0].text
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({
+      error: 'Internal server error'
+    });
   }
 };

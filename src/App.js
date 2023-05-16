@@ -21,8 +21,8 @@ function App() {
     e.preventDefault();
 
     const dataToSend = {
-      destination: destination,
-      budget: budget
+      destination,
+      budget
     };
 
     try {
