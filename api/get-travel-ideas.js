@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
       },
       {
         headers: {
-          'Authorization': `Bearer YOUR_API_KEY`, // Replace with your OpenAI API key
+          'Authorization': `sk-IZdVP95PzoIvVFAtHrvET3BlbkFJXCOgczy2NPz92SNoYL9Nn`, // Replace with your OpenAI API key
           'Content-Type': 'application/json'
         }
       }
