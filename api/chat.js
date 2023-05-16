@@ -1,4 +1,5 @@
 const axios = require('axios');
+require('dotenv').config();
 
 module.exports = async (req, res) => {
   try {
@@ -14,7 +15,7 @@ module.exports = async (req, res) => {
       },
       {
         headers: {
-          'Authorization': `sk-IZdVP95PzoIvVFAtHrvET3BlbkFJXCOgczy2NPz92SNoYL9Nn`, // Replace with your OpenAI API key
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
           'Content-Type': 'application/json'
         }
       }
