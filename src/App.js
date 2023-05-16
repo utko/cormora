@@ -1,53 +1,54 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Container, TextField, Button, Typography } from '@material-ui/core';
+
 import Form from './components/Form';
-import { Container, Typography } from '@mui/material';
 
 function App() {
-  const [form, setForm] = useState({
-    name: '',
-    pax_number: '',
-    travel_type: '',
-    location: '',
-    cash_amount: ''
-  });
+  const [destination, setDestination] = useState('');
+  const [budget, setBudget] = useState('');
+  const [answer, setAnswer] = useState(null);
 
-  const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState(null);
-
-  const handleChange = (prop) => (event) => {
-    setForm({ ...form, [prop]: event.target.value });
+  const handleDestinationChange = (event) => {
+    setDestination(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
+  const handleBudgetChange = (event) => {
+    setBudget(event.target.value);
+  };
 
-    const prompt = `Hello, I'm ${form.name} and want to make a travel with ${form.pax_number} people. We're interested in a ${form.travel_type} type of trip. We're currently located in ${form.location} and we're planning to spend ${form.cash_amount} amount of money. We understand that you don't have real-time price information, but what we're looking for are three inspirational options for a great trip based on the information we've provided. We'd appreciate if the suggestions are in Portuguese.`;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const dataToSend = {
+      destination: destination,
+      budget: budget
+    };
 
     try {
-      const result = await axios.post('/api/chat', {
-        prompts: [prompt],
-        max_tokens: 150
-      });
-
-      setResponse(result.data.choices[0].text.trim());
-      setLoading(false);
+      const response = await axios.post('/api/get-travel-ideas', dataToSend);
+      setAnswer(response.data.data);
     } catch (error) {
       console.error(error);
-      setLoading(false);
     }
   };
 
-  // Render
   return (
-    <Container maxWidth="sm" style={{ marginTop: '50px' }}>
-      {response ? (
-        <Typography variant="h4" align="center" paragraph>
-          {response}
+    <Container maxWidth="sm">
+      <Typography variant="h4" component="h1" align="center" gutterBottom>
+        Travel Ideas Generator
+      </Typography>
+      <Form
+        destination={destination}
+        onDestinationChange={handleDestinationChange}
+        budget={budget}
+        onBudgetChange={handleBudgetChange}
+        onSubmit={handleSubmit}
+      />
+      {answer && (
+        <Typography variant="h6" component="p" align="center" gutterBottom>
+          {answer}
         </Typography>
-      ) : (
-        <Form onChange={handleChange} onSubmit={handleSubmit} values={form} />
       )}
     </Container>
   );
