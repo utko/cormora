@@ -1,28 +1,70 @@
-import { Button, TextField, Select, MenuItem, Typography } from '@mui/material';
+import React from 'react';
+import { TextField, MenuItem, Button } from '@mui/material';
 
-function Form({ onFormSubmit }) {
-    // ... previous state declarations and handleChange functions
+const Form = ({ onChange, onSubmit, values }) => {
+  return (
+    <form onSubmit={onSubmit} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <TextField 
+        label="Seu nome" 
+        variant="outlined" 
+        onChange={onChange('name')}
+        value={values.name}
+        style={{marginBottom: '20px'}}
+      />
 
-    return (
-        <form onSubmit={handleFormSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '300px', margin: 'auto' }}>
-            <Typography variant="h5">Travel Planner</Typography>
-            <TextField label="Seu nome" variant="outlined" name="name" value={name} onChange={handleNameChange} required />
-            <TextField label="Quantas pessoas vão viajar" variant="outlined" name="pax_number" value={pax_number} onChange={handlePaxNumberChange} type="number" inputProps={{ min: 1, max: 10 }} required />
-            <Select label="Tipo de viagem" variant="outlined" name="travel_type" value={travel_type} onChange={handleTravelTypeChange} required>
-                <MenuItem value="Familia">Familia</MenuItem>
-                <MenuItem value="Aventura">Aventura</MenuItem>
-                <MenuItem value="Gastronomia">Gastronomia</MenuItem>
-                <MenuItem value="Descançar">Descançar</MenuItem>
-            </Select>
-            <TextField label="Onde você está agora" variant="outlined" name="location" value={location} onChange={handleLocationChange} required />
-            <Select label="Quanto você quer gastar" variant="outlined" name="cash_amount" value={cash_amount} onChange={handleCashAmountChange} required>
-                <MenuItem value="pouco">Pouco</MenuItem>
-                <MenuItem value="suficiente">Suficiente</MenuItem>
-                <MenuItem value="sem limites">Sem limites</MenuItem>
-            </Select>
-            <Button type="submit" variant="contained">Pesquisar ideias</Button>
-        </form>
-    );
-}
+      <TextField
+        select
+        label="Quantas pessoas vão viajar"
+        value={values.pax_number}
+        onChange={onChange('pax_number')}
+        style={{marginBottom: '20px'}}
+      >
+        {[...Array(10)].map((_, i) => (
+          <MenuItem key={i} value={i + 1}>
+            {i + 1}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <TextField
+        select
+        label="Tipo de viagem"
+        value={values.travel_type}
+        onChange={onChange('travel_type')}
+        style={{marginBottom: '20px'}}
+      >
+        {['Familia', 'Aventura', 'Gastronomia', 'Descansar'].map((type) => (
+          <MenuItem key={type} value={type}>
+            {type}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <TextField 
+        label="Onde você está agora" 
+        variant="outlined" 
+        onChange={onChange('location')}
+        value={values.location}
+        style={{marginBottom: '20px'}}
+      />
+
+      <TextField
+        select
+        label="Quanto você quer gastar"
+        value={values.cash_amount}
+        onChange={onChange('cash_amount')}
+        style={{marginBottom: '20px'}}
+      >
+        {['Pouco', 'Suficiente', 'Sem limites'].map((amount) => (
+          <MenuItem key={amount} value={amount}>
+            {amount}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <Button type="submit" variant="contained" color="primary">Pesquisar ideias</Button>
+    </form>
+  );
+};
 
 export default Form;
