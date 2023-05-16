@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     const prompt = `Hello, I'm ${name} and want to make a travel with ${pax_number} to somewhere. The ideia of for this travel is that we like a trip base in ${travel_type}.  Today im located in ${location} and about the how much i want to expend the base is ${cash_amount}. I know you dont have information in realtime about the prices, but what I want is 3 options for a good trip with the informations that i provide.`;
 
     const response = await axios.post(
-      'https://api.openai.com/v4/engines/davinci-codex/completions',
+      'https://api.openai.com/v1/engines/davinci-codex/completions',
       {
         prompt,
         max_tokens: 150,
@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
       },
       {
         headers: {
-          'Authorization': `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`,
+          'Authorization': `Bearer YOUR_API_KEY`, // Replace with your OpenAI API key
           'Content-Type': 'application/json'
         }
       }
